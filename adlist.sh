@@ -37,14 +37,14 @@ whitelist_dos_finalizing(){
 # remove whitelisted entries in tempblack and write final file, remove temp and tempblack files
 echo "checking whitelist ($whitelist) as well as final sort uniq & dos2unix... "
 
-if [[ -s $whitelist ]];then
+if [ -s $whitelist ];then
 	cat $tempoutlist | sort -u | fgrep -vf $whitelist > $outlist
 else
 	echo "WARNING: $whitelist not found, or it's zero size"
 	cat $tempoutlist | sort -u > $outlist
 fi
 dos2unix $tempoutlist || true
-if [[ -s $tempoutlist ]];then
+if [ -s $tempoutlist ];then
 	mv $outlist ${outlistFinal}0
 	cat ${outlistFinal}0 | sed s/0.0.0.0/127.0.0.1/ >${outlistFinal}127
 	#git_upload
