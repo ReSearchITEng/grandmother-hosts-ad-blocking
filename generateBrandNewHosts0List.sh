@@ -1,4 +1,10 @@
 #!/bin/sh
+#Author: ReSearchITEng
+#Work is based on other scripts on the same topic, from around the internet
+
+##########
+#Var list:
+##########
 dir=/home/osmc
 outlist=$dir/hosts.blocked.tmp
 outlistFinal=$dir/hosts.blocked
@@ -6,12 +12,14 @@ tempoutlist=$dir/list.tmp
 whitelist=$dir/whitelist.txt
 echo "Getting ad list files quiet..."
 
-
+###########
+#Functions
+##########
 getter(){
 echo "Getter starts"
 echo "" > $tempoutlist
 echo "Getting hosts.eladkarako.com ..."
-curl -s "https://raw.githubusercontent.com/eladkarako/hosts.eladkarako.com/master/hosts0.txt" | sed s/127.0.0.1/0.0.0.0/g | sed $'s/\r$//' | sed 's/  */\ /g' | grep -w ^0.0.0.0 | awk '{print $1 " " $2}' | sort -u  >> $tempoutlist 
+curl -sL "https://github.com/eladkarako/hosts.eladkarako.com/blob/master/hosts0.txt?raw=true" | sed s/127.0.0.1/0.0.0.0/g | sed $'s/\r$//' | sed 's/  */\ /g' | grep -w ^0.0.0.0 | awk '{print $1 " " $2}' | sort -u  >> $tempoutlist 
 echo "Getting winhelp2002.mvps.org ..."
 wget -qO- "http://winhelp2002.mvps.org/hosts.txt"   | sed s/127.0.0.1/0.0.0.0/g | sed $'s/\r$//' | sed 's/  */\ /g' | grep -w ^0.0.0.0 | awk '{print $1 " " $2}' | sort -u >> $tempoutlist
 
